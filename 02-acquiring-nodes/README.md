@@ -1,127 +1,63 @@
-# Setting up test nodes to use with Bolt
+# Setting up test nodes and Bolt setup
 
-> **Difficulty**: Basic
+## Bring up 4 test nodes using Vagrant
 
-> **Time**: Approximately 5 minutes
+> **Time**: Approximately 20 minutes
 
-In this exercise you will create nodes that you can use to experiment with Bolt. You can also use existing nodes in your system if you prefer. 
+In this exercise you will create nodes that you can use to experiment with Bolt. The attached Vagrantfile configures two CentOS-7 nodes and two Windows 2016 nodes.
 
-- [Existing nodes](#existing-nodes)
-- [Using Vagrant](#using-vagrant)
-- [Using Docker](#using-docker)
+1. Just for your information, open the `Vagrantfile` in this directory. It will show the 2 linux (_linux-1_ and _linux-2_) and 2 windows nodes (_win-1_ and _win-2_) being brought up.
+1. Bring up the 4 test nodes:  `vagrant up --provider=virtualbox`
+1. The previous step will take quite some time, especially downloading Windows 2016 Vagrant box. You will need a good internet connection.
+1. Confirm the status of the 4 VMs are up using vagrant: `bolt-beginner-hands-on-lab/02-acquiring-nodes > vagrant status`
 
-# Prerequisites
-To use an attached configuration file to set up test nodes, you must have one of the following installed on your machine: 
+> Current machine states:
+> linux-1                     running (virtualbox)
+> linux-2                     running (virtualbox)
+> win-1                       running (virtualbox)
+> win-2                       running (virtualbox)
 
-- [Vagrant](https://www.vagrantup.com/) 
-- [Docker for Mac](https://www.docker.com/docker-mac) 
-- [Docker for Windows](https://www.docker.com/docker-windows) 
+## Bolt setup
 
-# Existing nodes
+### Project Directory: Boltdir, creating a bolt.yaml file
 
-If you already have, or can easily launch, a few Linux or Windows nodes then you're all set. These nodes must be accessible via SSH or WinRM; if you can  access them via an SSH or WinRM client then Bolt can, too.
+Bolt runs in the context of a Bolt project directory called a *boltdir*. Any directory containing a __bolt.yaml__ file becomes a boltdir.
 
-# Using Vagrant
-**Note:** These instructions assume that you are familiar with Vagrant and have a suitable hypervisor configured.
+Note the __bolt-beginner-hands-on-lab/bolt.yaml__ file in the root directory of this lab. You will be _copying this bolt.yaml file to every lab_ that you will be doing.
 
-The attached Vagrantfile configures three CentOS 7 nodes and a Windows (Nano Server) node.
+### Building the inventory.yaml file
 
+To connect to a bunch of machines, you can sometimes specify all the credentials, node names etc, on the Bolt command line. However, the better way is to specify all this information in an __inventory.yaml__ file. 
 
+Note the __bolt-beginner-hands-on-lab/inventory.yaml__ file in the root directory of this lab. You will editing inventory.yaml file and then _copying this inventory.yaml file to every lab_ that you will be doing.
 
-1. Save the following code as `Vagrantfile` or download the `Vagrantfile` attached to this exercise. To configure a different number of nodes, change the `NODES` environment variable.
+#### Editing the Linux nodes part of the inventory.yaml file
 
-
-    ```ruby
-    nodes_count = 3
-    ```
-    The result:
-    ```        
-    if ENV['NODES'].to_i > 0 && ENV['NODES']
-      $nodes_count = ENV['NODES'].to_i
-    end
-    
-    Vagrant.configure('2') do |config|
-      config.vm.box = 'centos/7'
-      config.ssh.forward_agent = true
-      config.vm.network "private_network", type: "dhcp"
-    
-      (1..$nodes_count).each do |i|
-        config.vm.define "node#{i}"
-      end
-    
-      config.vm.define :windows do |windows|
-        windows.vm.box = "mwrock/WindowsNano"
-        windows.vm.guest = :windows
-        windows.vm.communicator = "winrm"
-      end
-    end
-    ```
-2. From the command line, ensure you’re in the directory where you stored the Vagrantfile file and enter `vagrant up`.
-
-3. Generate the SSH configuration so Bolt knows how to authenticate with the SSH daemon. The following command will output the required details.
+1. `vagrant` has the Linux node information we need. Type:
 
     ```
-    vagrant ssh-config
-    ```
-    
-    You can save that so it will be automatically picked up by most SSH clients, including Bolt. This uses the ability to specify hosts along with their connection details in a [configuration file](https://linux.die.net/man/5/ssh_config).
-    
-    ```
-    mkdir ~/.ssh
-    vagrant ssh-config | sed /StrictHostKeyChecking/d | sed /UserKnownHostsFile/d >> ~/.ssh/config
-    ```
-    
-    By saving this SSH configuration file, you can use the node name, rather than the IP address. When passing nodes to Bolt in the following exercises with Linux you will use `--nodes node1,node2`.
-
-4. Make sure you can SSH into all of your nodes. If you've used the vagrant nodes before you may have to remove entries from `~/.ssh/known_hosts`.
-
-    ```
-    ssh node1
-    ssh node2
-    ssh node3
+    02-acquiring-nodes>  vagrant ssh-config > config.txt
     ```
 
+2. Open the inventory.yaml file in your favorite editor. My favorite editor is [Visual Studio Code](https://code.visualstudio.com/download)!
+3. Open the generated `02-acquiring-nodes/config.txt` file generated by `vagrant`.
+4. You need to locate the section for `linux-1` in the `config.txt` file and in the `inventory.yaml` file.
+5. Locate the `Port` and `IdentityFile` values in the `config.txt` file .   
+5. Add the value from the `Port` entry and replace it in `<add port number for linux-1 forwarded SSH port number 22>` in the `inventory.yaml` file.
+6. Add the value from the `IdentityFile` entry and replace it in `<add IdentityFile value for linux-1 from config.txt file>` in the `inventory.yaml` file.
+7. Repeat for `linux-2`.
 
-# Using Docker
-Using Docker we can quickly launch a number of ephemeral SSH servers. To make that even easier we'll use Docker Compose. 
+#### Editing the Windows nodes part of the inventory.yaml file
 
-1. Save the following code as `docker-compose.yml` or download the `docker-compose.yml` file attached to this exercise.
+1. Type: `vagrant port win-1`. 
+2. From the output, note the line that shows how the WinRM port 5895 running in the Guest VM, is forwarded to the host (your laptop) machine.
+3. Find this line :
+````
+win-1: 5895 (guest) => 55985 (host)
+```
+4. The forwarded port value i.e `55985`, is the value that goes into the `<add port number for win-1 forwarded WinRM port number 5895>` in the `inventory.yaml` file.
+5. Repeat for `win-2` node.
 
-    ```yaml
-    version: '3'
-    services:
-      ssh:
-        build: .
-        ports:
-          - 22
-    ```
-2. Save the following code as `Dockerfile` or download the `Dockerfile` attached to this exercise.
-    ```
-    FROM rastasheep/ubuntu-sshd:16.04
-    RUN ln -s /usr/bin/python3 /usr/bin/python
-    ```
-
-2. Launch a single SSH server in the background: `docker-compose up -d`. To launch more SSH servers, run:  `docker-compose up --scale ssh=3 -d`.
-
-3. View a list of running containers: `docker-compose ps`. The result should be similar to:  
-    ```
-            Name                 Command        State           Ports
-    -------------------------------------------------------------------------
-    2acquiringnodes_ssh_1   /usr/sbin/sshd -D   Up      0.0.0.0:32768->22/tcp
-    2acquiringnodes_ssh_2   /usr/sbin/sshd -D   Up      0.0.0.0:32769->22/tcp
-    ```
-    
-    Note the `Ports` column. We are forwarding a local port to the SSH server running in the container. Using the example above, you can SSH to `127.0.0.1:32768`.
-    
-4. If you have a local SSH client, test the connection. Change the port to one you get from running the `docker-compose ps` command. The image sets the username and password to `root`. 
-    
-    ```
-    ssh root@127.0.0.1 -p 32768
-    ```
-
-5. Make sure you can log into all the nodes before moving on. You may have to remove some entries from `~/.ssh/known_hosts` 
-
-    When passing nodes to Bolt in the next section you will use `--nodes 127.0.0.1:32768,127.0.0.1:32769`, replacing the ports with those you see when you run the `docker-compose ps` command.
 
 # Next steps
 

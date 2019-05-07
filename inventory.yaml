@@ -1,0 +1,31 @@
+groups:
+  - name: linux_nodes
+    groups:
+      - name: linux-1
+        nodes:
+          - localhost:<add port number for linux-1 forwarded SSH port number 22>
+        config:
+          ssh:
+            user: vagrant
+            private-key: <add IdentityFile value for linux-1 from config.txt file>
+            host-key-check: false
+      - name: linux-2
+        nodes:
+          - localhost:<add port number for linux-2 forwarded SSH port number 22 >
+        config:
+          ssh:
+            user: vagrant
+            private-key: <add IdentityFile value for linux-2 from config.txt file>
+            host-key-check: false
+  - name: win_nodes
+    groups:
+      - name: windows
+        nodes:
+          - localhost:<add port number for win-1 forwarded WinRM port number 5895> 
+          - localhost:<add port number for win-2 forwarded WinRM port number 5895> 
+    config:
+      transport: winrm
+      winrm:
+        user: vagrant
+        password: vagrant
+        ssl: false
