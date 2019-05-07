@@ -58,9 +58,33 @@ win-1: 5895 (guest) => 55985 (host)
 4. The forwarded port value i.e `55985`, is the value that goes into the `<add port number for win-1 forwarded WinRM port number 5895>` in the `inventory.yaml` file.
 5. Repeat for `win-2` node.
 
+## Managing the nodes with Vagrant
+
+### Suspend
+If you are done with the above steps and want to continue with the next labs steps later, you can suspend the VMs. 
+Type : 
+```
+bolt-beginner-hands-on-lab/02-acquiring-nodes > vagrant suspend
+```
+### Resume
+To resume the VMs, type:
+```
+bolt-beginner-hands-on-lab/02-acquiring-nodes > vagrant resume
+```
+
+### Destroy
+To delete all the VMs, type:
+```
+bolt-beginner-hands-on-lab/02-acquiring-nodes > vagrant destroy -f
+```
+### To start all over again
+To restart all over again, type:
+```
+bolt-beginner-hands-on-lab/02-acquiring-nodes > vagrant up --provider=virtualbox
+```
 
 # Next steps
 
-Now that you have set up test nodes to use with Bolt you can move on to:
+Resume or start up the test nodes and you can move on to next lab:
 
 [Running Commands](../03-running-commands)
