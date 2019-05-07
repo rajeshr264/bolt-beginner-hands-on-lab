@@ -84,7 +84,7 @@ groups:
         config:
           ssh:
             user: vagrant
-            private-key:/Users/foo/bolt-beginner-hands-on-lab/02-acquiring-nodes/.vagrant/machines/linux-1/virtualbox/private_key # 'IdentityFile' value for linux-1
+            private-key: /Users/foo/bolt-beginner-hands-on-lab/02-acquiring-nodes/.vagrant/machines/linux-1/virtualbox/private_key # 'IdentityFile' value for linux-1
             host-key-check: false
       - name: linux-2
         nodes:
@@ -92,7 +92,7 @@ groups:
         config:
           ssh:
             user: vagrant
-            private-key:/Users/foo/bolt-beginner-hands-on-lab/02-acquiring-nodes/.vagrant/machines/linux-2/virtualbox/private_key # 'IdentityFile' value for linux-2
+            private-key: /Users/foo/bolt-beginner-hands-on-lab/02-acquiring-nodes/.vagrant/machines/linux-2/virtualbox/private_key # 'IdentityFile' value for linux-2
             host-key-check: false
   - name: win_nodes
     groups:
