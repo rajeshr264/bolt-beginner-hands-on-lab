@@ -11,12 +11,13 @@ In this exercise you will create nodes that you can use to experiment with Bolt.
 1. The previous step will take quite some time, especially downloading Windows 2016 Vagrant box. You will need a good internet connection.
 1. Confirm the status of the 4 VMs are up using vagrant: `bolt-beginner-hands-on-lab/02-acquiring-nodes > vagrant status`
 
-> Current machine states:
-> linux-1                     running (virtualbox)
-> linux-2                     running (virtualbox)
-> win-1                       running (virtualbox)
-> win-2                       running (virtualbox)
-
+```
+ Current machine states:
+ linux-1                     running (virtualbox)
+ linux-2                     running (virtualbox)
+ win-1                       running (virtualbox)
+ win-2                       running (virtualbox)
+```
 ## Bolt setup
 
 ### Project Directory: Boltdir, creating a bolt.yaml file
