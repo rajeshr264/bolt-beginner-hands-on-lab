@@ -32,11 +32,11 @@ To connect to a bunch of machines, you can sometimes specify all the credentials
 
 Note: Most of the keywords in the inventory file have a corresponding Bolt Command line option. Run `bolt help` to see all the command line options.
 
-Note the __bolt-beginner-hands-on-lab/inventory.yaml__ file in the root directory, `bolt-beginner-hands-on-lab/` of this lab. You will editing inventory.yaml file and then _copying this inventory.yaml file to every lab_ that you will be doing.
+You will editing __bolt-beginner-hands-on-lab/inventory.yaml__ file and then _copying this inventory.yaml file to every lab_ that you will be doing.
 
 #### Editing the Linux nodes part of the inventory.yaml file
 
-1. `vagrant` has the Linux node information we need. Type:
+1. `vagrant` has Linux node information that we need. Type:
 
     ```
     02-acquiring-nodes>  vagrant ssh-config > config.txt
@@ -139,12 +139,18 @@ To delete all the VMs, type:
 ```
 bolt-beginner-hands-on-lab/02-acquiring-nodes > vagrant destroy -f
 ```
+or if you want to delete just the Windows VMs :
+```
+bolt-beginner-hands-on-lab/02-acquiring-nodes > vagrant destroy -f win-1 win-2
+```
+
 ### Launch VMs again
+
 To start all over again, type:
 ```
 bolt-beginner-hands-on-lab/02-acquiring-nodes > vagrant up --provider=virtualbox
 ```
-
+If you deleted just the Windows VMs, then only the Windows VMs will be started again. The Linux VMs will not be touched.
 # Next steps
 
 You can move on to next lab:

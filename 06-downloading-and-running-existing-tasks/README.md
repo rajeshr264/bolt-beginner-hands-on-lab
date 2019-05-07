@@ -10,12 +10,12 @@ In this exercise you will explore existing tasks, including several tasks that t
 - [The Tasks Playground](#more-tips-tricks-and-ideas-on-the-tasks-playground)
 
 # Prerequisites
+
 Complete the following before you start this lesson:
 
-1. [Installing Bolt](../01-installing-bolt)
 1. [Setting up test nodes](../02-acquiring-nodes)
-1. [Running Commands](../03-running-commands)
-1. [Running Scripts](../04-running-scripts)
+2. Verify ports and private-key values in valid `bolt-beginner-hands-on-lab/inventory.yaml` are valid.
+3. Copy over the `bolt-beginner-hands-on-lab/bolt.yaml` and `bolt-beginner-hands-on-lab/inventory.yaml` files to this directory. 
 
 # Inspect installed tasks
 
@@ -47,31 +47,6 @@ Bolt is packaged with useful modules and task content.
     Use bolt task show <task-name> to view details and parameters for a specific task.
     ```
 
-# Use the puppet_agent module to install puppet agent. 
-
-Install puppet agent with the install_agent task
-
-``` 
-bolt task run puppet_agent::install -n all --run-as root
-```
-   
-The result:
-```
-  Installed:
-  puppet-agent.x86_64 0:6.0.1-1.el7                                             
-  
-  Complete!
-  Loaded plugins: fastestmirror
-  Loading mirror speeds from cached hostfile
-   * base: mirror.tocici.com
-   * extras: mirror.tocici.com
-   * updates: ftp.osuosl.org
-  No packages marked for update
-  {
-  }
- Successful on 3 nodes: node1,node2,node3
- Ran on 3 nodes in 68.71 seconds
-```
 
 # View and use parameters for a specific task
 
@@ -85,7 +60,7 @@ The result:
     package - Manage and inspect the state of packages
 
     USAGE:
-    bolt task run --nodes <node-name> package action=<value> name=<value> version=<value> provider=<value>
+    bolt task run --nodes <node-name> package action=<value> package=<value> version=<value> provider=<value>
 
     PARAMETERS:
     - action: Enum[install, status, uninstall, upgrade]
@@ -104,52 +79,74 @@ The result:
 2.  Using parameters for the package task, check on the status of the bash package:
 
     ```
-    bolt task run package action=status name=bash --nodes node1
+    bolt task run package action=status package=bash --nodes linux_nodes
     ```
     The result:
     ```    
-    Started on node1...
-    Finished on node1:
+    Started on localhost...
+    Started on localhost...
+    Finished on localhost:
       {
         "status": "up to date",
-        "version": "4.2.46-30.el7"
+        "version": "4.2.46-31.el7"
       }
-    Successful on 1 node: node1
-    Ran on 1 node in 3.84 seconds
+    Finished on localhost:
+      {
+        "status": "up to date",
+        "version": "4.2.46-31.el7"
+      }
+    Successful on 2 nodes: localhost:2222,localhost:2200
+    Ran on 2 nodes in 9.08 seconds
     ```
 3.  Using parameters for the package task, install the vim package across all your nodes:
 
     ```
-    bolt task run package action=install name=vim --nodes all --run-as root
+    bolt task run package action=install package=vim --nodes linux_nodes --run-as root
     ```
     The result:
     ```
-    Started on node1...
-    Started on node3...
-    Started on node2...
-    Finished on node1:
-      {
-        "status": "present",
-        "version": "2:7.4.160-4.el7"
-      }
-    Finished on node3:
+    Started on localhost...
+    Started on localhost...
+    Finished on localhost:
       {
         "status": "installed",
-        "version": "2:7.4.160-4.el7"
+        "version": "2:7.4.160-5.el7"
       }
-    Finished on node2:
+    Finished on localhost:
       {
         "status": "installed",
-        "version": "2:7.4.160-4.el7"
+        "version": "2:7.4.160-5.el7"
       }
-    Successful on 3 nodes: node1,node2,node3
-    Ran on 3 nodes in 10.03 seconds
+    Successful on 2 nodes: localhost:2222,localhost:2200
     ```
+
+# Extra points: # Use the puppet_agent module to install puppet agent on linux nodes 
+
+Install puppet agent with the install_agent task
+
+``` 
+bolt task run puppet_agent::install -n linux_nodes --run-as root
+```
+   
+The result:
+```
+Started on localhost...
+Started on localhost...
+Finished on localhost:
+  20:00:28 +0000 INFO: Version parameter not defined, assuming latest
+  ...
+Finished on localhost:
+  20:00:28 +0000 INFO: Version parameter not defined, assuming latest
+  20:00:28 +0000 INFO: Downloading Puppet latest for el...
+  ...
+Successful on 2 nodes: localhost:2222,localhost:2200
+Ran on 2 nodes in 35.42 seconds
+```
 
 # More tips, tricks and ideas on the Tasks Playground
 
 See the [installing modules](https://puppet.com/docs/bolt/latest/bolt_installing_modules.html) documentation to learn how to install external modules. 
-These exercises introduce you to Puppet tasks. You'll find lots more tips, tricks, examples and hacks on the [Puppet Tasks Playground](https://github.com/puppetlabs/tasks-playground).
+These exercises introduce you to Bolt tasks. You'll find lots more tips, tricks, examples and hacks on the [Puppet Tasks Playground](https://github.com/puppetlabs/tasks-playground).
 
 # Next steps
 
