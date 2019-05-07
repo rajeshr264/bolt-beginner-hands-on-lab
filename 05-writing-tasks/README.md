@@ -20,7 +20,7 @@ Complete the following before you start this lesson:
 3. Copy over the `bolt-beginner-hands-on-lab/bolt.yaml` and `bolt-beginner-hands-on-lab/inventory.yaml` files to this directory. 
 
 
-# How do tasks work?
+# How does a Bolt-task work?
 
 A task allows a multi step configuraiton to be broken down into well defined steps. 
 
