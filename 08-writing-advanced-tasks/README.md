@@ -9,9 +9,9 @@ In this exercise you will write a task with metadata.
 # Prerequisites
 Complete the following before you start this lesson:
 
-1. [Installing Bolt](../01-installing-bolt)
-1. [Acquiring nodes](../02-acquiring-nodes)
-1. [Writing tasks](../05-writing-tasks)
+1. [Setting up test nodes](../02-acquiring-nodes)
+2. Verify ports and private-key values in valid `bolt-beginner-hands-on-lab/inventory.yaml` are valid.
+3. Copy over the `bolt-beginner-hands-on-lab/bolt.yaml` and `bolt-beginner-hands-on-lab/inventory.yaml` files to this directory. 
 
 # About task metadata
 Task metadata files describe task parameters, validate input, and control how tasks are executed.  Adding metadata to your tasks helps others use them.  You write metadata for a task in JSON and save it with the same name as your task. For example, if you write a task called `great_metadata.py` its corresponding metadata file is named `great_metadata.json`.  
@@ -19,7 +19,7 @@ Task metadata files describe task parameters, validate input, and control how ta
 # Writing your first task with metadata
 Write a simple task that formats the parameters a user gives it.
 
-1. Save the following file to `modules/exercise8/tasks/great_metadata.py`:
+1. View the following file `modules/exercise8/tasks/great_metadata.py`:
 
     ```python
     #!/usr/bin/env python
@@ -59,7 +59,7 @@ Write a simple task that formats the parameters a user gives it.
     print(json.dumps(result))
     ```
 
-2. Write the accompanying metadata and save the file to `modules/exercise8/tasks/great_metadata.json`. Specify the parameters as types such as `"type": "Integer"`  which help validate user input as an `Integer`.  
+2. View the accompanying metadata file `modules/exercise8/tasks/great_metadata.json`. Specify the parameters as types such as `"type": "Integer"`  which help validate user input as an `Integer`.  
 
     ```json
     {
@@ -136,7 +136,7 @@ Bolt can use the types that you have specified in your metadata to validate para
 1. Run your task and pass the following parameters as a JSON string.
 
     ```
-    bolt task run exercise8::great_metadata --nodes all --modulepath ./modules --params '{"name":"poppey","action":"spinach","recursive":true}'
+    bolt task run exercise8::great_metadata --nodes linux_nodes --modulepath ./modules --params '{"name":"poppey","action":"spinach","recursive":true}'
     ```
     The result:
     ```     
@@ -146,12 +146,12 @@ Bolt can use the types that you have specified in your metadata to validate para
 
 2. Correct the value for the action parameter and run the task again.
     ```
-    bolt task run exercise8::great_metadata --nodes node1 --modulepath ./modules --params '{"name":"poppey","action":"start","recursive":true}'
+    bolt task run exercise8::great_metadata --nodes linux-1 --modulepath ./modules --params '{"name":"poppey","action":"start","recursive":true}'
     ```
     The result:
     ```     
-    Started on node1...
-    Finished on node1:
+    Started on localhost...
+    Finished on localhost:
       {
         "message": "\nCongratulations on writing your metadata!  Here are\nthe keys and the values that you passed to this task.\n",
         "parameters": [
@@ -177,7 +177,7 @@ Bolt can use the types that you have specified in your metadata to validate para
           }
         ]
       }
-    Successful on 1 node: node1
+    Successful on 1 node: localhost:2222
     Ran on 1 node in 0.97 seconds
     ```
 
@@ -185,7 +185,7 @@ Bolt can use the types that you have specified in your metadata to validate para
 
 You can write tasks that support no-operation mode (noop). You use noop to see what changes a task would make, but without taking any action.
 
-1. Create the metadata for the new task and save it to `modules/exercise8/tasks/file.json`:
+1. View the metadata for the new task in `modules/exercise8/tasks/file.json`:
 
     ```json
     {
@@ -204,7 +204,7 @@ You can write tasks that support no-operation mode (noop). You use noop to see w
     }
     ```
 
-2. Save the following file to `modules/exercise8/tasks/file.py`. This task uses input from stdin. When a user passes the `--noop` flag, the JSON object from stdin will contain the `_noop` key with a value of True.  
+2. View the following file  `modules/exercise8/tasks/file.py`. This task uses input from stdin. When a user passes the `--noop` flag, the JSON object from stdin will contain the `_noop` key with a value of True.  
 
     ```python
     #!/usr/bin/env python
@@ -265,32 +265,32 @@ You can write tasks that support no-operation mode (noop). You use noop to see w
 
 3. Test the task with the `--noop` flag.
     ```
-    bolt task run exercise8::file --nodes node1 --modulepath ./modules content=Hello_World filename=/tmp/hello_world --noop
+    bolt task run exercise8::file --nodes linux-2 --modulepath ./modules content=Hello_World filename=/tmp/hello_world --noop
     ```
     The result:
     ```
-    Started on node1...
-    Finished on node1:
+    Started on localhost...
+    Finished on localhost:
       {
         "_noop": true,
         "success": true
       }
-    Successful on 1 node: node1
+    Successful on 1 node: localhost:2200
     Ran on 1 node in 0.96 seconds
     ```
     
 4. Run the task again without `--noop` and see the task create the file successfully.
     ```
-    bolt task run exercise8::file --nodes node1 --modulepath ./modules content=Hello_World filename=/tmp/hello_world
+    bolt task run exercise8::file --nodes linux-2 --modulepath ./modules content=Hello_World filename=/tmp/hello_world
     ```
     The result:
     ``` 
-    Started on node1...
-    Finished on node1:
+    Started on localhost...
+    Finished on localhost:
       {
         "success": true
       }
-    Successful on 1 node: node1
+    Successful on 1 node: localhost:2200
     Ran on 1 node in 0.98 seconds
     ```
 # Next steps

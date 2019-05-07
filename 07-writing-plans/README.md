@@ -34,7 +34,7 @@ This `run_command` function does the same job as the `bolt command run` CLI comm
 
 Create a simple plan that runs a command on a list of nodes.
 
-1. View the following : `modules/exercise7/plans/command.pp`:
+1. View the following `modules/exercise7/plans/command.pp`:
 
     ```puppet
     plan exercise7::command (TargetSpec $nodes) {
