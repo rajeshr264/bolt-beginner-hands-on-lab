@@ -30,4 +30,4 @@ groups:
       winrm:
         user: vagrant
         password: vagrant
-        ssl: false
+        ssl: false      # NOTE: You must specify this 'ssl' as 'false' to use WinRM for Windows nodes.

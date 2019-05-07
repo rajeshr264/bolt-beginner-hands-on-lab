@@ -12,7 +12,7 @@ You can use Bolt to run arbitrary commands on a set of remote hosts. Let's see t
 # Prerequisites
 
 
-1. Launch test nodes: `vagrant up --provider=virtualbox`
+1. [Setting up test nodes](../02-acquiring-nodes)
 2. Verify ports and private-key values in valid `bolt-beginner-hands-on-lab/inventory.yaml` are valid.
 3. Copy over the `bolt-beginner-hands-on-lab/bolt.yaml` and `bolt-beginner-hands-on-lab/inventory.yaml` files to this directory.  
 
