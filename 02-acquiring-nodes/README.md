@@ -52,7 +52,7 @@ Note the __bolt-beginner-hands-on-lab/inventory.yaml__ file in the root director
 1. Type: `vagrant port win-1`. 
 2. From the output, note the line that shows how the WinRM port 5895 running in the Guest VM, is forwarded to the host (your laptop) machine.
 3. Find this line :
-````
+```
 win-1: 5895 (guest) => 55985 (host)
 ```
 4. The forwarded port value i.e `55985`, is the value that goes into the `<add port number for win-1 forwarded WinRM port number 5895>` in the `inventory.yaml` file.
