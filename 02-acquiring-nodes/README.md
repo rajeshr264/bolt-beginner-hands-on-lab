@@ -59,19 +59,6 @@ win-1: 5895 (guest) => 55985 (host)
 4. The forwarded port value i.e `55985`, is the value that goes into the `<add port number for win-1 forwarded WinRM port number 5895>` in the `inventory.yaml` file.
 5. Repeat for `win-2` node.
 
-## Managing the nodes with Vagrant
-
-### Destroy
-To delete all the VMs, type:
-```
-bolt-beginner-hands-on-lab/02-acquiring-nodes > vagrant destroy -f
-```
-### To start all over again
-To restart all over again, type:
-```
-bolt-beginner-hands-on-lab/02-acquiring-nodes > vagrant up --provider=virtualbox
-```
-
 # Sample inventory.yaml file
 
 bolt-beginner-hands-on-lab/inventory.yaml 
@@ -107,6 +94,18 @@ groups:
         user: vagrant
         password: vagrant
         ssl: false
+```
+## Managing the nodes with Vagrant
+
+### Destroy
+To delete all the VMs, type:
+```
+bolt-beginner-hands-on-lab/02-acquiring-nodes > vagrant destroy -f
+```
+### To start all over again
+To restart all over again, type:
+```
+bolt-beginner-hands-on-lab/02-acquiring-nodes > vagrant up --provider=virtualbox
 ```
 
 # Next steps
