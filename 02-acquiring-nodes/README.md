@@ -65,7 +65,7 @@ Host linux-2
 Host win-1...
 ```
 
-3. Open the inventory.yaml file in your favorite editor. My favorite editor is [Visual Studio Code](https://code.visualstudio.com/download)!
+3. Open the `inventory.yaml` file in your favorite editor. My favorite editor is [Visual Studio Code](https://code.visualstudio.com/download)!
 
 4. As shown above, locate the `Port` and `IdentityFile` values in the `config.txt` file .   
 
@@ -99,7 +99,8 @@ groups:
         config:
           ssh:
             user: vagrant
-            private-key: /Users/foo/bolt-beginner-hands-on-lab/02-acquiring-nodes/.vagrant/machines/linux-1/virtualbox/private_key # 'IdentityFile' value for linux-1
+                             # 'IdentityFile' value to 'private-key', for linux-1 
+            private-key: /Users/foo/bolt-beginner-hands-on-lab/02-acquiring-nodes/.vagrant/machines/linux-1/virtualbox/private_key 
             host-key-check: false
       - name: linux-2
         nodes:
@@ -107,6 +108,7 @@ groups:
         config:
           ssh:
             user: vagrant
+                          # 'IdentityFile' value to 'private-key', for linux-2
             private-key: /Users/foo/bolt-beginner-hands-on-lab/02-acquiring-nodes/.vagrant/machines/linux-2/virtualbox/private_key # 'IdentityFile' value for linux-2 
             host-key-check: false
   - name: win_nodes
@@ -125,19 +127,23 @@ groups:
 ```
 ## Managing the nodes with Vagrant
 
-### Destroy
+You are now done with all the setup steps! You can chose to destroy all the VMs and bring them back up again. 
+
+NOTE: When you launch them again, vagrant might change the `Port` and `IdentityFile` values. Verify, by running the `vagrant ssh-config` command.
+
+### Destroy VMS
 To delete all the VMs, type:
 ```
 bolt-beginner-hands-on-lab/02-acquiring-nodes > vagrant destroy -f
 ```
-### To start all over again
-To restart all over again, type:
+### Launch VMs again
+To start all over again, type:
 ```
 bolt-beginner-hands-on-lab/02-acquiring-nodes > vagrant up --provider=virtualbox
 ```
 
 # Next steps
 
-Resume or start up the test nodes and you can move on to next lab:
+You can move on to next lab:
 
 [Running Commands](../03-running-commands)
