@@ -60,18 +60,6 @@ win-1: 5895 (guest) => 55985 (host)
 
 ## Managing the nodes with Vagrant
 
-### Suspend
-If you are done with the above steps and want to continue with the next labs steps later, you can suspend the VMs. 
-Type : 
-```
-bolt-beginner-hands-on-lab/02-acquiring-nodes > vagrant suspend
-```
-### Resume
-To resume the VMs, type:
-```
-bolt-beginner-hands-on-lab/02-acquiring-nodes > vagrant resume
-```
-
 ### Destroy
 To delete all the VMs, type:
 ```
