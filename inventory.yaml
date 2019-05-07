@@ -30,4 +30,5 @@ groups:
       winrm:
         user: vagrant
         password: vagrant
-        ssl: false      # NOTE: You must specify this 'ssl' as 'false' to use WinRM for Windows nodes.
+        ssl: false             # NOTE: You must specify this 'ssl' as 'false' to use WinRM for Windows nodes.
+        extensions: [.py, .pl] # Required for running Python or Perl scripts via WinRM

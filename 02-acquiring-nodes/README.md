@@ -30,6 +30,8 @@ Note the __bolt-beginner-hands-on-lab/bolt.yaml__ file in the root directory of 
 
 To connect to a bunch of machines, you can sometimes specify all the credentials, node names etc, on the Bolt command line. However, the better way is to specify all this information in an __inventory.yaml__ file. [Inventory File docs](https://puppet.com/docs/bolt/latest/inventory_file.html).
 
+Note: Most of the keywords in the inventory file have a corresponding Bolt Command line option. Run `bolt help` to see all the command line options.
+
 Note the __bolt-beginner-hands-on-lab/inventory.yaml__ file in the root directory, `bolt-beginner-hands-on-lab/` of this lab. You will editing inventory.yaml file and then _copying this inventory.yaml file to every lab_ that you will be doing.
 
 #### Editing the Linux nodes part of the inventory.yaml file
@@ -123,7 +125,8 @@ groups:
       winrm:
         user: vagrant
         password: vagrant
-        ssl: false
+        ssl: false              # NOTE: You must specify this 'ssl' as 'false' to use WinRM 
+        extensions: [.py, .pl]  # Required for running Python or Perl scripts via WinRM
 ```
 ## Managing the nodes with Vagrant
 

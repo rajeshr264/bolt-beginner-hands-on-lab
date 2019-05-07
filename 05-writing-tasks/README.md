@@ -12,27 +12,37 @@ In this exercise you will write your first Puppet Tasks for use with Bolt.
 - [Write your first task in Python](#write-your-first-task-in-python)
 
 # Prerequisites
+
 Complete the following before you start this lesson:
 
-1. [Installing Bolt](../01-installing-bolt)
 1. [Setting up test nodes](../02-acquiring-nodes)
-1. [Running Commands](../03-running-commands)
-1. [Running Scripts](../04-running-scripts)
+2. Verify ports and private-key values in valid `bolt-beginner-hands-on-lab/inventory.yaml` are valid.
+3. Copy over the `bolt-beginner-hands-on-lab/bolt.yaml` and `bolt-beginner-hands-on-lab/inventory.yaml` files to this directory. 
 
 
 # How do tasks work?
 
-Tasks are similar to scripts, you can implement them in any language that runs on your target nodes. But tasks are kept in modules and can have metadata. This allows you to reuse and share them more easily. You can upload and download tasks as modules from the [Puppet Forge](https://forge.puppet.com/), run them from GitHub or use them locally to organize your regularly used commands.
+A task allows a multi step configuraiton to be broken down into well defined steps. 
 
-Tasks are stored in the `tasks` directory of a module, a module being a directory with a unique name. You can have several tasks per module, but the `init` task is special and runs by default if you do not specify a task name.
+This philosphy is similar to breaking down a large function into smaller functions. Each smaller function is connected to others, via variables. 
 
-By default tasks take arguments as environment variables prefixed with `PT` (short for Puppet Tasks). 
+This task based breakdown allows for easier code management and better error reporting.
 
-# Write your first task in Bash
+1. Tasks can be scripts written in popular scripting languages like Bourne Shell, Powershell, Python, Ruby or it can be a Bolt-Task. You can download Bolt tasks from the [Puppet Forge](https://forge.puppet.com/).  Try this search: _sqlserver_ on the Forge and you will see it return a result with the Bolt Tasks icon next to it.
+
+2. Tasks are stored in the following hierarchy `modules/<unique directory name>/tasks/` underneath the Boltdir. 
+
+3. You can have several tasks per module. 
+
+4. The `init` task is special and runs by default if you do not specify a task name.
+
+4. Tasks take arguments as environment variables prefixed with `PT` (short for Puppet Tasks). 
+
+# Run your first task in Bash
 
 This exercise uses `sh`, but you can use Perl, Python, Lua, or JavaScript or any language that can read environment variables or take content on stdin.
 
-1. Save the following file to `modules/exercise5/tasks/init.sh`:
+1. View the following file : `modules/exercise5/tasks/init.sh`. Note the $PT_`message` variable, where `message` is an input parameter. It will be given a value on the command line.
 
     ```
     #!/bin/sh
@@ -40,30 +50,46 @@ This exercise uses `sh`, but you can use Perl, Python, Lua, or JavaScript or any
     echo $(hostname) received the message: $PT_message
     ```
 
-2. Run the exercise5 task. Note the `message` argument. This will be expanded to the `PT_message` environment variable expected by our task. By naming parameters explicitly it's easier for others to use your tasks.
+2.  You run a task as: `bolt task run <task-name> <task options>`.
+
+    Note the `message=hello` argument. This will be expanded to the `PT_message` environment variable expected by our task. By naming parameters explicitly it's easier for others to use your tasks.
 
     ```
-    bolt task run exercise5 message=hello --nodes node1 --modulepath ./modules
+    bolt task run exercise5 message=hello --nodes linux_nodes --modulepath ./modules
     ```
     The result:
     ```
-    Started on node1...
-    Finished on node1:
-      localhost.localdomain received the message: hello
-      {
-      }
-    Successful on 1 node: node1
-    Ran on 1 node in 0.99 seconds
+    Started on localhost...
+    Started on localhost...
+  Finished on localhost:
+    localhost.localdomain received the message: hello
+    {
+    }
+  Finished on localhost:
+    localhost.localdomain received the message: hello
+    {
+    }
+  Successful on 2 nodes: localhost:2222,localhost:2200
+  Ran on 2 nodes in 0.56 seconds
     ```
+
+3. In the previous lab, note the `--modulepath ./modulues` argument you specified. Usually the modulepath goes into the `bolt.yaml` file. View your `bolt.yaml` file and confirm that `./modules` path is there. 
+
+Run the following command (without the `--modulepath` option and relying on the `bolt.yaml` setting) and see that it produces the same results as in previous step.
+
+  ```
+  bolt task run exercise5 message=hello --nodes linux_nodes
+  ```
+
 
 3. Run the Bolt command with a different value for `message` and see how the output changes.
 
 
-# Write your first task in PowerShell
+# Run your first task in PowerShell
 
 If you're targeting Windows nodes then you might prefer to implement the task in PowerShell. 
 
-1. Save the following file as `modules/exercise5/tasks/print.ps1`
+1. View the following file : `modules/exercise5/tasks/print.ps1`
 
     ```powershell
     param ($message)
@@ -73,17 +99,22 @@ If you're targeting Windows nodes then you might prefer to implement the task in
 2. Run the exercise5 task. 
 
     ```
-    bolt task run exercise5::print message="hello powershell" --nodes $WINNODE --modulepath ./modules --no-ssl
-    ```
+    bolt task run exercise5::print message="hello powershell" --nodes win_nodes
     ```
     The result:
+    ```
     Started on localhost...
-    Finished on localhost:
-      Nano received the message: hello powershell
-      {
-      }
-    Successful on 1 node: winrm://vagrant:vagrant@localhost:55985
-    Ran on 1 node in 3.87 seconds
+    Started on localhost...
+  Finished on localhost:
+    WINDOWS2016 received the message: hello powershell
+    {
+    }
+  Finished on localhost:
+    WINDOWS2016 received the message: hello powershell
+    {
+    }
+  Successful on 2 nodes: localhost:55985,localhost:2202
+  Ran on 2 nodes in 1.70 seconds
     ```
 
     **Note:**
@@ -93,11 +124,11 @@ If you're targeting Windows nodes then you might prefer to implement the task in
     * As with the Bash example above, name parameters so that they're more easily understood by users of the task.
     * By default tasks with a `.ps1` extension executed over WinRM use PowerShell standard agrument handling rather than being supplied as prefixed environment variables or via `stdin`. 
 
-# Write your first task in Python
+# Run your first task in Python
 
 Note that Bolt assumes that the required runtime is already available on the target nodes. For the following examples to work, Python 2 or 3 must be installed on the target nodes. This task will also work on Windows system with Python 2 or 3 installed.
 
-1. Save the following as `modules/exercise5/tasks/gethost.py`:
+1. View the following : `modules/exercise5/tasks/gethost.py`
 
     ```python
     #!/usr/bin/env python
@@ -123,10 +154,10 @@ Note that Bolt assumes that the required runtime is already available on the tar
         sys.exit(1)
     ```
 
-2. Run the task using the command `bolt task run <task-name> <task options>`.
+2. Run the task on the `linux_nodes` inventory group
 
     ```
-    bolt task run exercise5::gethost host=google.com --nodes all --modulepath ./modules
+    bolt task run exercise5::gethost host=google.com --nodes linux_nodes
     ```
     The result:
     ```
@@ -141,6 +172,96 @@ Note that Bolt assumes that the required runtime is already available on the tar
     Successful on 1 node: node1
     Ran on 1 node in 0.97 seconds
     ```
+
+# Extra points: Run the python task on the Windows nodes
+
+1. We need to download the Python 3.7 interpreter on the `win_nodes` inventory group first.
+
+  ```
+  bolt command run "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -Uri 'https://www.python.org/ftp/python/3.7.3/python-3.7.3.exe' -Outfile 'c:\python-3.7.3.exe'"  -n win_nodes
+  ```
+
+2. Execute the installer to install Python 3.7 on the windows nodes
+
+  ```
+  bolt command run "cmd /K 'c:\python-3.7.3.exe InstallAllUsers=1 PrependPath=1 Include_test=0  /quiet'"  -n win_nodes
+  ```
+
+3. Verify python is installed 
+
+  ```
+  bolt command run "python -V"  -n win_nodes
+  ```
+
+4. Execute the python task on `win_nodes` inventory group.
+
+  ```
+  bolt task run exercise5::gethost host=google.com --nodes win_nodes
+  ```
+  Result:
+  ```
+  Started on localhost...
+  Started on localhost...
+Finished on localhost:
+  google.com is available at 216.58.195.78 on windows2016
+  {
+    "host": "google.com",
+    "ipaddr": "216.58.195.78",
+    "hostname": "windows2016"
+  }
+Finished on localhost:
+  google.com is available at 216.58.195.78 on windows2016
+  {
+    "host": "google.com",
+    "ipaddr": "216.58.195.78",
+    "hostname": "windows2016"
+  }
+Successful on 2 nodes: localhost:55985,localhost:2202
+Ran on 2 nodes in 6.48 seconds
+  ```
+
+Once that command works, run the same Python task on both Linux & Windows nodes:
+
+  ```
+  bolt task run exercise5::gethost host=google.com --nodes win_nodes,linux_nodes
+  ```
+Result:
+  ```
+  Started on localhost...
+  Started on localhost...
+  Started on localhost...
+  Started on localhost...
+  Finished on localhost:
+    google.com is available at 216.58.195.78 on localhost.localdomain
+    {
+      "host": "google.com",
+      "hostname": "localhost.localdomain",
+      "ipaddr": "216.58.195.78"
+    }
+  Finished on localhost:
+    google.com is available at 216.58.195.78 on localhost.localdomain
+    {
+      "host": "google.com",
+      "hostname": "localhost.localdomain",
+      "ipaddr": "216.58.195.78"
+    }
+  Finished on localhost:
+    google.com is available at 216.58.195.78 on windows2016
+    {
+      "host": "google.com",
+      "ipaddr": "216.58.195.78",
+      "hostname": "windows2016"
+    }
+  Finished on localhost:
+    google.com is available at 216.58.195.78 on windows2016
+    {
+      "host": "google.com",
+      "ipaddr": "216.58.195.78",
+      "hostname": "windows2016"
+    }
+  Successful on 4 nodes: localhost:55985,localhost:2202,localhost:2222,localhost:2200
+  Ran on 4 nodes in 6.18 seconds
+  ```
 
 # Next steps
 
