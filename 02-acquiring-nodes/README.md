@@ -28,9 +28,9 @@ Note the __bolt-beginner-hands-on-lab/bolt.yaml__ file in the root directory of 
 
 ### Building the inventory.yaml file
 
-To connect to a bunch of machines, you can sometimes specify all the credentials, node names etc, on the Bolt command line. However, the better way is to specify all this information in an __inventory.yaml__ file. 
+To connect to a bunch of machines, you can sometimes specify all the credentials, node names etc, on the Bolt command line. However, the better way is to specify all this information in an __inventory.yaml__ file. [Inventory File docs](https://puppet.com/docs/bolt/latest/inventory_file.html).
 
-Note the __bolt-beginner-hands-on-lab/inventory.yaml__ file in the root directory of this lab. You will editing inventory.yaml file and then _copying this inventory.yaml file to every lab_ that you will be doing.
+Note the __bolt-beginner-hands-on-lab/inventory.yaml__ file in the root directory, `bolt-beginner-hands-on-lab/` of this lab. You will editing inventory.yaml file and then _copying this inventory.yaml file to every lab_ that you will be doing.
 
 #### Editing the Linux nodes part of the inventory.yaml file
 

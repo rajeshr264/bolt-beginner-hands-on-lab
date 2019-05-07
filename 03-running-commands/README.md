@@ -10,120 +10,75 @@ You can use Bolt to run arbitrary commands on a set of remote hosts. Let's see t
 - [Running PowerShell commands on Windows nodes](#running-powershell-commands-on-windows-nodes)
 
 # Prerequisites
-Complete the following before you start this lesson:
 
-1. [Installing Bolt](../01-installing-bolt)
-1. [Setting up test nodes](../02-acquiring-nodes)
+
+1. Launch test nodes: `vagrant up --provider=virtualbox`
+2. Verify ports and private-key values in valid `bolt-beginner-hands-on-lab/inventory.yaml` are valid.
+3. Copy over the `bolt-beginner-hands-on-lab/bolt.yaml` and `bolt-beginner-hands-on-lab/inventory.yaml` files to this directory.  
 
 # Running shell commands on Linux nodes
 
-Bolt by default uses SSH for transport. If you can connect to systems remotely, you can use Bolt to run shell commands. It reuses your existing SSH configuration for authentication, which is typically provided in `~/.ssh/config`.
+Bolt by default uses SSH for transport. If you can connect to systems remotely, you can use Bolt to run shell commands.  
 
 To run a command against a remote Linux node, use the following command syntax:
 ```
 bolt command run <command> --nodes <nodes>
 ```
 
-To run a command against a remote node using a username and password rather than keys use the following syntax:
-```
-bolt command run <command> --nodes <nodes> --user <user> --password <password>
-```
-
-1. Run the `uptime` command to view how long the system has been running. If you are using existing nodes on your system, replace `node1` with the address for your node.
-
+1. Run the `uptime` command to view how long the system has been running, with the _inventory group_ called `linux_nodes` in the `inventory.yaml` file.  
     ```
-    bolt command run uptime --nodes node1
+    bolt command run uptime --nodes linux_nodes
     ```
     The result:
     ```
-    Started on node1...
-    Finished on node1:
+    Started on localhost...
+    Started on localhost...
+    Finished on localhost:
       STDOUT:
-         22:42:18 up 16 min,  0 users,  load average: 0.00, 0.01, 0.03
-    Successful on 1 node: node1
-    Ran on 1 node in 0.42 seconds
-
-    ```
-
-    **Tip:** If you receive the error `Host key verification failed` make sure the correct host keys are in your `known_hosts` file or pass `--no-host-key-check` to future Bolt commands. Bolt will not honor `StrictHostKeyChecking` in your SSH configuration.
-
-2. Run the 'uptime' command on multiple nodes by passing a comma-separated list. If you are using existing nodes on your system, replace `node1,node2,node3` with addresses for your nodes. If you get an error about `Host key verification` run the rest of the examples with the `--no-host-key-check` flag to disable host key verification.
-
-    ```
-    bolt command run uptime --nodes node1,node2,node3
-    ```
-    The result:
-    ```
-    Started on node1...
-    Started on node3...
-    Started on node2...
-    Finished on node2:
+        17:23:10 up  2:15,  0 users,  load average: 0.00, 0.01, 0.05
+    Finished on localhost:
       STDOUT:
-         21:03:37 up  2:06,  0 users,  load average: 0.00, 0.01, 0.03
-    Finished on node3:
-      STDOUT:
-         21:03:37 up  2:05,  0 users,  load average: 0.08, 0.03, 0.05
-    Finished on node1:
-      STDOUT:
-         21:03:37 up  2:07,  0 users,  load average: 0.00, 0.01, 0.05
-    Successful on 3 nodes: node1,node2,node3
-    Ran on 3 nodes in 0.52 seconds
+        17:23:10 up  2:16,  0 users,  load average: 0.00, 0.01, 0.04
+    Successful on 2 nodes: localhost:2222,localhost:2200
+    Ran on 2 nodes in 0.44 seconds
     ```
 
-3. Create an inventory file to store information about your nodes and refer to them as a group.  Later exercises will refer to the default group `all`. For more information on how to set up other named groups, see the
-    [Inventory File docs](https://puppet.com/docs/bolt/latest/inventory_file.html).
+2. The `inventory.yaml` also allows you to specify the individual nodes in a comma-separated list.  You will the same result as before.
 
-    For example, if you are using the provided Vagrant configuration file, save the following to `~/.puppetlabs/bolt/inventory.yaml`:
-
-    ```yaml
-    ---
-    nodes: [node1, node2, node3]
-    config:
-      ssh:
-        host-key-check: false
     ```
+    bolt command run uptime --nodes linux-1,linux-2
+    ```
+
 
 # Running PowerShell commands on Windows nodes
 
-Bolt can communicate over WinRM and execute PowerShell commands when running Windows nodes. To run a command against a remote Windows node, use the following command syntax:
+Bolt can communicate over WinRM and execute PowerShell commands when running Windows nodes. 
 
-```
-bolt command run <command> --nodes winrm://<node> --user <user> --password <password>
-```
-
-Note the `winrm://` prefix for the node address. Also note the `--username` and `--password` flags for passing authentication information. In addition, unless you have set up SSL for WinRM communication, you must supply the `--no-ssl` flag. Otherwise running a Bolt command will result in an `unknown protocol` error.
-
-```
-bolt command run <command> --no-ssl --nodes winrm://<node>,winrm://<node> --user <user> --password <password>
-```
-
-1. Set a variable with the list of nodes.  Later exercises will refer to this variable. You can incorporate the username and password into the node address. For example, if you are using the provided Vagrant configuration file, set the following:
+1.  Run the following command to find the version Windows explorer executable installed on an inventory group called `win_nodes` in the `inventory.yaml`.  This command will be useful to check version of a product installed on a large number of windows machines. 
 
     ```
-    WINNODE=winrm://vagrant:vagrant@localhost:55985
+    bolt command run "Get-Process explorer -FileVersionInfo" --nodes win_nodes
     ```
-
-    On Windows, you can do the same thing with Powershell:
-
-    ```powershell
-    $WINNODE="winrm://vagrant:vagrant@localhost:55985"
+    Result:
     ```
-
-2.  Run the following command to list all of the processes running on a remote machine.
-
+    Started on localhost...
+    Started on localhost...
+    Finished on localhost:
+      STDOUT:
+        ProductVersion   FileVersion      FileName
+        --------------   -----------      --------
+        10.0.14393.0     10.0.14393.0 ... C:\Windows\Explorer.EXE
+    Finished on localhost:
+      STDOUT:
+        ProductVersion   FileVersion      FileName
+        --------------   -----------      --------
+        10.0.14393.0     10.0.14393.0 ... C:\Windows\Explorer.EXE
+    Successful on 2 nodes: localhost:55985,localhost:2202
+    Ran on 2 nodes in 0.82 seconds
     ```
-    bolt command run "gps | select ProcessName" --nodes $WINNODE --no-ssl
-    ```
-
-    Use following syntax to list all of the processes running on multiple remote machines.
-
-    ```
-    bolt command run <command> --nodes winrm://<node>,winrm://<node> --user <user> --password <password>
-    ```
-
 
 # Next steps
 
-Now that you know how to use Bolt to run adhoc commands you can move on to:
+Now that you know how to use Bolt to run _ad-hoc_ commands you can move on to:
 
 [Running Scripts](../04-running-scripts)
