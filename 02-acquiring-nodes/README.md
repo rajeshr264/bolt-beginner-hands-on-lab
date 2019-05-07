@@ -92,26 +92,26 @@ groups:
     groups:
       - name: linux-1
         nodes:
-          - localhost:__2200__ # 'Port' value from config.txt
+          - localhost:2200 # 'Port' value from linux-1 section, from config.txt
         config:
           ssh:
             user: vagrant
-            private-key:__/Users/foo/bolt-beginner-hands-on-lab/02-acquiring-nodes/.vagrant/machines/linux-1/virtualbox/private_key__
+            private-key:/Users/foo/bolt-beginner-hands-on-lab/02-acquiring-nodes/.vagrant/machines/linux-1/virtualbox/private_key # 'IdentityFile' value for linux-1
             host-key-check: false
       - name: linux-2
         nodes:
-          - localhost:__2201__ # 'Port' value from config.txt
+          - localhost:2201 # 'Port' value from linux-2 section, from config.txt
         config:
           ssh:
             user: vagrant
-            private-key:__/Users/foo/bolt-beginner-hands-on-lab/02-acquiring-nodes/.vagrant/machines/linux-2/virtualbox/private_key__
+            private-key:/Users/foo/bolt-beginner-hands-on-lab/02-acquiring-nodes/.vagrant/machines/linux-2/virtualbox/private_key # 'IdentityFile' value for linux-2
             host-key-check: false
   - name: win_nodes
     groups:
       - name: windows
         nodes:
-          - localhost:__55985__ 
-          - localhost:__2204__
+          - localhost:55985  # From 'vagrant port win-1', forwarded port 5895 => 55985
+          - localhost:2204   # From 'vagrant port win-2', forwarded port 5895 => 2204
     config:
       transport: winrm
       winrm:
