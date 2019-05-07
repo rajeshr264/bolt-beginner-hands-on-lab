@@ -19,9 +19,11 @@ groups:
             host-key-check: false
   - name: win_nodes
     groups:
-      - name: windows
+      - name: win-1
         nodes:
           - localhost:<add port number for win-1 forwarded WinRM port number 5895> 
+      - name: win-2
+        nodes:
           - localhost:<add port number for win-2 forwarded WinRM port number 5895> 
     config:
       transport: winrm

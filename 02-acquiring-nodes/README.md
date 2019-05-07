@@ -84,9 +84,10 @@ groups:
             host-key-check: false
   - name: win_nodes
     groups:
-      - name: windows
+      - name: win-1
         nodes:
           - localhost:55985  # From 'vagrant port win-1', forwarded port 5895 => 55985
+      - name: win-2
           - localhost:2204   # From 'vagrant port win-2', forwarded port 5895 => 2204
     config:
       transport: winrm
