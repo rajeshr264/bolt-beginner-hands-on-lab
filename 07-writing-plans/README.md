@@ -153,7 +153,7 @@ Create a task and then create a plan that uses the task.
     Successful on 1 node: localhost:2222
     Ran on 1 node in 0.62 seconds
     ```
-3. View the plan that uses the write task: `modules/exercise7/plans/writeread.pp`:
+3. We are going to run this task using the `run_task` plan-function in the following plan: `modules/exercise7/plans/writeread.pp`.
 
     ```puppet
     plan exercise7::writeread (
@@ -161,23 +161,28 @@ Create a task and then create a plan that uses the task.
       String     $filename,
       String     $message = 'Hello',
     ) {
+      
+      # using the 'run_task' plan-function to execute the task. 
       run_task(
         'exercise7::write',
         $nodes,
         filename => $filename,
         message  => $message,
       )
+
+      # use the 'run_command' plan-function to execute a shell command.
       run_command("cat /tmp/${filename}", $nodes)
     }
     ```
 
     **Note:**
     
+    * This plan shows how a Bolt-Task and a shell command are used together (via `run_command` & `run_task` Bolt-plan functions), in a Bolt-plan. 
     * The plan takes three arguments, one of which (`message`) has a default value. We'll see shortly how Bolt uses that to validate user input.
     * First you run the `exercise7::write` task from above, setting the arguments for the task to the values passed to the plan. This writes out a file in the `/tmp` directory.
     * Then you run a command directly from the plan, in this case to output the content written to the file in the above task.
 
-4. Run the plan using the following command:
+4. Run the Bolt-plan :
     
     ```
     bolt plan run exercise7::writeread filename=hello message=world nodes=linux-1 
