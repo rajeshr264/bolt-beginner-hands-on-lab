@@ -83,6 +83,43 @@ To restart all over again, type:
 bolt-beginner-hands-on-lab/02-acquiring-nodes > vagrant up --provider=virtualbox
 ```
 
+# Sample inventory.yaml file
+
+bolt-beginner-hands-on-lab/inventory.yaml 
+```
+groups:
+  - name: linux_nodes
+    groups:
+      - name: linux-1
+        nodes:
+          - localhost:__2200__ # 'Port' value from config.txt
+        config:
+          ssh:
+            user: vagrant
+            private-key:__/Users/foo/bolt-beginner-hands-on-lab/02-acquiring-nodes/.vagrant/machines/linux-1/virtualbox/private_key__
+            host-key-check: false
+      - name: linux-2
+        nodes:
+          - localhost:__2201__ # 'Port' value from config.txt
+        config:
+          ssh:
+            user: vagrant
+            private-key:__/Users/foo/bolt-beginner-hands-on-lab/02-acquiring-nodes/.vagrant/machines/linux-2/virtualbox/private_key__
+            host-key-check: false
+  - name: win_nodes
+    groups:
+      - name: windows
+        nodes:
+          - localhost:__55985__ 
+          - localhost:__2204__
+    config:
+      transport: winrm
+      winrm:
+        user: vagrant
+        password: vagrant
+        ssl: false
+```
+
 # Next steps
 
 Resume or start up the test nodes and you can move on to next lab:
