@@ -1,4 +1,4 @@
-modulepath: "./modules:./site-modules"
+modulepath: [./modules,./site-modules]
 inventoryfile: "./inventory.yaml"
 concurrency: 10
 format: human
