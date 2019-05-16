@@ -76,7 +76,9 @@ Bolt is packaged with useful modules and task content.
     built-in module
     ```
 
-2.  Using parameters for the package task, check on the status of the bash package:
+2.  Using parameters for the package task, check on the status of the bash package. 
+
+   *Note*:  This task & the next task might fail if your corporate network does not allow your machine to connect to the publically available CentOS repositories. That is ok. You will see the error message and learn about error conditions too.  
 
     ```
     bolt task run package action=status name=bash --nodes linux_nodes
@@ -98,7 +100,9 @@ Bolt is packaged with useful modules and task content.
     Successful on 2 nodes: localhost:2222,localhost:2200
     Ran on 2 nodes in 9.08 seconds
     ```
-3.  Using parameters for the package task, install the vim package across all your nodes:
+3.  Using parameters for the package task, install the vim package across all your nodes. 
+     
+    *Note:* the `--run-as` option will print unsupported warnings for Windows nodes. You can ignore the warnings.
 
     ```
     bolt task run package action=install name=vim --nodes linux_nodes --run-as root
