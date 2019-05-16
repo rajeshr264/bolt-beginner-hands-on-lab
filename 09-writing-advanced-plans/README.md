@@ -107,13 +107,7 @@ Bolt supports a powerful extension mechanism via Puppet functions. These are fun
     }
     ```
 
-2. To use the `length` function, which accepts a `String` type so it can be invoked directly on a string, install it locally:
-
-    ```bash
-    git clone https://github.com/puppetlabs/puppetlabs-stdlib ./modules/stdlib
-    ```
-
-3. Run the plan.
+2. Run the plan.
 
     ```bash
     bolt plan run exercise9::count_volumes nodes=all --modulepath ./modules
@@ -129,7 +123,7 @@ Bolt supports a powerful extension mechanism via Puppet functions. These are fun
     ]
     ```
 
-4. Write a function to list the unique volumes across your nodes and save the function as `modules/exercise9/lib/puppet/functions/unique.rb`. A helpful function for this would be `unique`, but [puppetlabs-stdlib] includes a Puppet 3-compatible version that can't be used. Not all Puppet functions can be used with Bolt.
+3. Write a function to list the unique volumes across your nodes and save the function as `modules/exercise9/lib/puppet/functions/unique.rb`. A helpful function for this would be `unique`, but [puppetlabs-stdlib] includes a Puppet 3-compatible version that can't be used. Not all Puppet functions can be used with Bolt.
 
     ```ruby
     Puppet::Functions.create_function(:unique) do
@@ -143,7 +137,7 @@ Bolt supports a powerful extension mechanism via Puppet functions. These are fun
     end
     ```
 
-5. View the plan `modules/exercise9/plans/unique_volumes.pp`. It shows a plan that collects the last column of each line output by `df` (except the header), and prints a list of unique mount points.
+4. View the plan `modules/exercise9/plans/unique_volumes.pp`. It shows a plan that collects the last column of each line output by `df` (except the header), and prints a list of unique mount points.
 
     ```puppet
     plan exercise9::unique_volumes (TargetSpec $nodes) {
@@ -159,7 +153,7 @@ Bolt supports a powerful extension mechanism via Puppet functions. These are fun
       return $volumes.unique
     }
     ```
-7. Run the plan. 
+5. Run the plan. 
 
     ```bash
     bolt plan run exercise9::unique_volumes nodes=linux_nodes --modulepath ./modules
