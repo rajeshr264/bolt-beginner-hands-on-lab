@@ -22,15 +22,11 @@ Complete the following before you start this lesson:
 
 # How does a Bolt-task work?
 
-A task allows a multi step configuraiton to be broken down into well defined steps. 
+A [task](https://puppet.com/docs/bolt/latest/writing_tasks.html) allows a multi step configuration algorithm to be broken down into well defined steps. This philosphy is similar to breaking down a large function into smaller functions. Each smaller function is connected to other functions via variables. 
 
-This philosphy is similar to breaking down a large function into smaller functions. Each smaller function is connected to others, via variables. 
+1. Tasks are scripts written in popular scripting languages like Bourne Shell, Powershell, Python, Ruby or it can be a Bolt-Task. You can download Bolt tasks from the [Puppet Forge](https://forge.puppet.com/).  Try this search: _sqlserver_ on the Forge and you will see it return a result with the Bolt Tasks icon next to it.
 
-This task based breakdown allows for easier code management and better error reporting.
-
-1. Tasks can be scripts written in popular scripting languages like Bourne Shell, Powershell, Python, Ruby or it can be a Bolt-Task. You can download Bolt tasks from the [Puppet Forge](https://forge.puppet.com/).  Try this search: _sqlserver_ on the Forge and you will see it return a result with the Bolt Tasks icon next to it.
-
-2. Tasks are stored in the following hierarchy `modules/<unique directory name>/tasks/` underneath the Boltdir. 
+2. Tasks are similar to scripts, but they are kept in modules and can have metadata. This allows you to reuse and share them. Tasks are stored in the following hierarchy `modules/<unique directory name>/tasks/` underneath the Boltdir. 
 
 3. You can have several tasks per module. 
 
