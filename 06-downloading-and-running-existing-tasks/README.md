@@ -60,7 +60,7 @@ Bolt is packaged with useful modules and task content.
     package - Manage and inspect the state of packages
 
     USAGE:
-    bolt task run --nodes <node-name> package action=<value> package=<value> version=<value> provider=<value>
+    bolt task run --nodes <node-name> package action=<value> name=<value> version=<value> provider=<value>
 
     PARAMETERS:
     - action: Enum[install, status, uninstall, upgrade]
@@ -79,7 +79,7 @@ Bolt is packaged with useful modules and task content.
 2.  Using parameters for the package task, check on the status of the bash package:
 
     ```
-    bolt task run package action=status package=bash --nodes linux_nodes
+    bolt task run package action=status name=bash --nodes linux_nodes
     ```
     The result:
     ```    
@@ -101,7 +101,7 @@ Bolt is packaged with useful modules and task content.
 3.  Using parameters for the package task, install the vim package across all your nodes:
 
     ```
-    bolt task run package action=install package=vim --nodes linux_nodes --run-as root
+    bolt task run package action=install name=vim --nodes linux_nodes --run-as root
     ```
     The result:
     ```
