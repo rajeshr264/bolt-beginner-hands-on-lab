@@ -32,7 +32,9 @@ A [task](https://puppet.com/docs/bolt/latest/writing_tasks.html) allows a multi 
 
 4. The `init` task is special and runs by default if you do not specify a task name.
 
-4. Tasks take arguments as environment variables prefixed with `PT` (short for Puppet Tasks). 
+5. Tasks take arguments as environment variables prefixed with `PT` (short for Puppet Tasks). 
+
+6. You and your team-mates will be writing and sharing *well-defined, re-usable* tasks. 
 
 # Run your first task in Bash
 
@@ -171,7 +173,7 @@ Note that Bolt assumes that the required runtime is already available on the tar
 
 # Extra points: Run the python task on the Windows nodes
 
-1. We need to download the Python 3.7 interpreter on the `win_nodes` inventory group first.
+1. We need to download the Python 3.7 interpreter on the `win_nodes` inventory group first.  
 
   ```
   bolt command run "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -Uri 'https://www.python.org/ftp/python/3.7.3/python-3.7.3.exe' -Outfile 'c:\python-3.7.3.exe'"  -n win_nodes
