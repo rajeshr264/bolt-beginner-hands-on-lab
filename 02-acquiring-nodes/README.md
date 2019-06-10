@@ -25,7 +25,7 @@ In this exercise you will create nodes that you can use to experiment with Bolt.
 
 Bolt runs in the context of a Bolt project directory called a *boltdir*. Any directory containing a __bolt.yaml__ file becomes a boltdir.
 
-Note the __bolt-beginner-hands-on-lab/bolt.yaml__ file in the root directory of this lab. You will be _copying this bolt.yaml file to every lab_ that you will be doing.
+Note the _template_ `bolt-beginner-hands-on-lab/bolt.yaml` file in the root directory of this lab. You will be _copying this bolt.yaml file to every lab_ that you will be doing.
 
 ### Building the inventory.yaml file
 
@@ -33,7 +33,7 @@ To connect to a bunch of machines, you can sometimes specify all the credentials
 
 Note: Most of the keywords in the inventory file have a corresponding Bolt Command line option. Run `bolt help` to see all the command line options.
 
-You will editing __bolt-beginner-hands-on-lab/inventory.yaml__ file and then _copying this inventory.yaml file to every lab_ that you will be doing.
+You will editing `bolt-beginner-hands-on-lab/inventory.yaml` file and then _copying this inventory.yaml file to every lab_ that you will be doing.
 
 #### Editing the Linux nodes part of the inventory.yaml file
 
