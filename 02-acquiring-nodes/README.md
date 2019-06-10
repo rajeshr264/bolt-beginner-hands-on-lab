@@ -6,7 +6,8 @@
 
 In this exercise you will create nodes that you can use to experiment with Bolt. The attached Vagrantfile configures two CentOS-7 nodes and two Windows 2016 nodes.
 
-1. Just for your information, open  `bolt-beginner-hands-on-lab/02-acquiring-nodes/Vagrantfile` in this directory. It will show the 2 linux (_linux-1_ and _linux-2_) and 2 windows nodes (_win-1_ and _win-2_) being brought up.
+1. Ensure you are in `bolt-beginner-hands-on-lab/02-acquiring-nodes` directory. 
+1. Open the `Vagrantfile` in `02-acquiring-nodes` directory. It will show the 2 linux (_linux-1_ and _linux-2_) and 2 windows nodes (_win-1_ and _win-2_) being brought up.
 1. Bring up the 4 test nodes:  `vagrant up --provider=virtualbox`
 1. The previous step will take quite some time, especially downloading Windows 2016 Vagrant box. You will need a good internet connection.
 1. Confirm the status of the 4 VMs are up using vagrant: `bolt-beginner-hands-on-lab/02-acquiring-nodes > vagrant status`
