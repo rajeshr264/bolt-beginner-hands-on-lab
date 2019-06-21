@@ -110,16 +110,15 @@ Bolt supports a powerful extension mechanism via Puppet functions. These are fun
 2. Run the plan.
 
     ```bash
-    bolt plan run exercise9::count_volumes nodes=all --modulepath ./modules
+    bolt plan run exercise9::count_volumes nodes=linux_nodes --modulepath ./modules
     ```
     The result:
     ```
-    Starting: command 'df' on node1, node2, node3
+    Starting: command 'df' on linux-1,linux-2
     Finished: command 'df' with 0 failures in 0.5 sec
     [
       "node1 has 7 volumes",
-      "node2 has 7 volumes",
-      "node3 has 7 volumes"
+      "node2 has 7 volumes"
     ]
     ```
 
