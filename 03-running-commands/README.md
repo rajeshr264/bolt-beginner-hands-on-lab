@@ -54,7 +54,7 @@ bolt command run <command> --nodes <nodes>
 
 Bolt can communicate over WinRM and execute PowerShell commands when running Windows nodes. _You might get an error asking you to log into the Windows nodes before connecting via Bolt and WinRM. RDP into your Windows nodes first then._
 
-1.  Run the following commands to find the version Windows explorer executable installed on an inventory group called `win_nodes` in the `inventory.yaml`.  This command will be useful to check version of a product installed on a large number of windows machines. 
+1.  Run the following command to find the version Windows explorer executable installed on an inventory group called `win_nodes` in the `inventory.yaml`.  This command will be useful to check version of a product installed on a large number of windows machines. 
 
     ```
     bolt command run "Get-Process explorer -FileVersionInfo" --nodes win_nodes
@@ -76,6 +76,8 @@ Bolt can communicate over WinRM and execute PowerShell commands when running Win
     Successful on 2 nodes: localhost:55985,localhost:2202
     Ran on 2 nodes in 0.82 seconds
     ```
+
+2.  Run the following command to get the Host Id.
 
     ```
     bolt command run "Get-Host" --nodes win_nodes
