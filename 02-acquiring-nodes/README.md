@@ -89,7 +89,7 @@ win-1: 5895 (guest) => 55985 (host)
 4. The forwarded port value i.e `55985`, is the value that goes into the `<add port number for win-1 forwarded WinRM port number 5895>` in the `inventory.yaml` file.
 5. Repeat for `win-2` node. _For example_, the line might be: 
 ```
-win-1: 5895 (guest) => 2202 (host)
+win-2: 5895 (guest) => 2202 (host)
 ```
 6. Open the Windows Remote Desktop App on your laptop and create the following *New* profile with the following information: 
 ```
