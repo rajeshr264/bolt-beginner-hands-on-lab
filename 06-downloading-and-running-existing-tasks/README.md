@@ -47,6 +47,28 @@ Bolt is packaged with useful modules and task content.
     Use bolt task show <task-name> to view details and parameters for a specific task.
     ```
 
+# Use the puppet_agent module to install puppet agent on linux nodes 
+
+Install puppet agent with the install_agent task
+
+``` 
+bolt task run puppet_agent::install -n linux_nodes --run-as root
+```
+   
+The result:
+```
+Started on localhost...
+Started on localhost...
+Finished on localhost:
+  20:00:28 +0000 INFO: Version parameter not defined, assuming latest
+  ...
+Finished on localhost:
+  20:00:28 +0000 INFO: Version parameter not defined, assuming latest
+  20:00:28 +0000 INFO: Downloading Puppet latest for el...
+  ...
+Successful on 2 nodes: localhost:2222,localhost:2200
+Ran on 2 nodes in 35.42 seconds
+```
 
 # View and use parameters for a specific task
 
@@ -60,12 +82,12 @@ Bolt is packaged with useful modules and task content.
     package - Manage and inspect the state of packages
 
     USAGE:
-    bolt task run --nodes <node-name> package action=<value> name=<value> version=<value> provider=<value>
+    bolt task run --nodes <node-name> package action=<value> package=<value> version=<value> provider=<value>
 
     PARAMETERS:
     - action: Enum[install, status, uninstall, upgrade]
         The operation (install, status, uninstall and upgrade) to perform on the package
-    - name: String[1]
+    - package: String[1]
         The name of the package to be manipulated
     - version: Optional[String[1]]
         Version numbers must match the full version to install, including release if the provider uses a release moniker. Ranges or semver patterns are not accepted except for the gem package provider. For example, to install the bash package from the rpm bash-4.1.2-29.el6.x86_64.rpm, use the string '4.1.2-29.el6'.
@@ -81,7 +103,7 @@ Bolt is packaged with useful modules and task content.
    *Note*:  This task & the next task might fail if your corporate network does not allow your machine to connect to the publically available CentOS repositories. That is ok. You will see the error message and learn about error conditions too.  
 
     ```
-    bolt task run package action=status name=bash --nodes linux_nodes
+    bolt task run package action=status package=bash --nodes linux_nodes
     ```
     The result:
     ```    
@@ -105,7 +127,7 @@ Bolt is packaged with useful modules and task content.
     *Note:* the `--run-as` option will print unsupported warnings for Windows nodes. You can ignore the warnings.
 
     ```
-    bolt task run package action=install name=vim --nodes linux_nodes --run-as root
+    bolt task run package action=install package=vim --nodes linux_nodes --run-as root
     ```
     The result:
     ```
@@ -124,28 +146,6 @@ Bolt is packaged with useful modules and task content.
     Successful on 2 nodes: localhost:2222,localhost:2200
     ```
 
-# Extra points: # Use the puppet_agent module to install puppet agent on linux nodes 
-
-Install puppet agent with the install_agent task
-
-``` 
-bolt task run puppet_agent::install -n linux_nodes --run-as root
-```
-   
-The result:
-```
-Started on localhost...
-Started on localhost...
-Finished on localhost:
-  20:00:28 +0000 INFO: Version parameter not defined, assuming latest
-  ...
-Finished on localhost:
-  20:00:28 +0000 INFO: Version parameter not defined, assuming latest
-  20:00:28 +0000 INFO: Downloading Puppet latest for el...
-  ...
-Successful on 2 nodes: localhost:2222,localhost:2200
-Ran on 2 nodes in 35.42 seconds
-```
 
 # More tips, tricks and ideas on the Tasks Playground
 
