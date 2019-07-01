@@ -91,7 +91,7 @@ win-1: 5895 (guest) => 55985 (host)
 ```
 win-2: 5895 (guest) => 2202 (host)
 ```
-6. Open the Windows Remote Desktop App on your laptop and create the following *New* profile with the following information: 
+6. Open the *Windows Remote Desktop App* on your laptop and create the following *New* profile with the following information: 
 ```
 Connection name : win-1
 PC Name : 127.0.0.1:55985
