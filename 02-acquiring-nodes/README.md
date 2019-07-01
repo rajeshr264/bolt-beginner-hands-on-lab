@@ -87,8 +87,22 @@ Host win-1...
 win-1: 5895 (guest) => 55985 (host)
 ```
 4. The forwarded port value i.e `55985`, is the value that goes into the `<add port number for win-1 forwarded WinRM port number 5895>` in the `inventory.yaml` file.
-5. Repeat for `win-2` node.
-6. Using Remote Desktop App, log into your 2 Windows boxes using vagrant/vagrant as login and password.
+5. Repeat for `win-2` node. _For example_, the line might be: 
+```
+win-1: 5895 (guest) => 2202 (host)
+```
+6. Open the Windows Remote Desktop App on your laptop and create the following *New* profile with the following information: 
+```
+Connection name : win-1
+PC Name : 127.0.0.1:55985
+Gateway : No gateway configured
+
+Credentials
+User name: vagrant
+Password : vagrant
+```
+Create another profile for win-2.
+
 
 # Sample inventory.yaml file
 
