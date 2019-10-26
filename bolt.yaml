@@ -2,3 +2,13 @@ modulepath: [./modules,./site-modules]
 inventoryfile: "./inventory.yaml"
 concurrency: 10
 format: human
+ssh:
+ host-key-check: false
+winrm:
+  ssl: false
+log:
+  console:
+    level: debug
+  ./debug.log:
+    level: debug
+    append: false
